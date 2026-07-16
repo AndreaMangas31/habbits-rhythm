@@ -1,0 +1,165 @@
+/* ---------- BLOBS ---------- */
+
+.blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(120px);
+  will-change: transform;
+  pointer-events: none;
+}
+
+.blob-purple {
+  width: 480px;
+  height: 480px;
+  left: -180px;
+  top: -140px;
+
+  background: rgba(139, 92, 246, 0.35);
+
+  animation: blobPurple 24s ease-in-out infinite alternate;
+}
+
+.blob-green {
+  width: 420px;
+  height: 420px;
+
+  right: -120px;
+  top: -60px;
+
+  background: rgba(16, 185, 129, 0.28);
+
+  animation: blobGreen 28s ease-in-out infinite alternate;
+}
+
+.blob-pink {
+  width: 560px;
+  height: 560px;
+
+  right: 80px;
+  bottom: -240px;
+
+  background: rgba(236, 72, 153, 0.25);
+
+  animation: blobPink 32s ease-in-out infinite alternate;
+}
+
+/* ---------- AURORA ---------- */
+
+.aurora {
+  position: absolute;
+  inset: -30%;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(139, 92, 246, 0.18),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(16, 185, 129, 0.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(236, 72, 153, 0.16),
+      transparent 35%
+    );
+
+  filter: blur(90px);
+
+  animation: auroraMove 40s linear infinite;
+
+  will-change: transform;
+}
+
+/* ---------- SPARKLES ---------- */
+
+.sparkle {
+  position: absolute;
+
+  animation: sparkle 5s ease-in-out infinite;
+
+  opacity: 0.25;
+}
+
+.delay-1 {
+  animation-delay: 1s;
+}
+.delay-2 {
+  animation-delay: 2.5s;
+}
+.delay-3 {
+  animation-delay: 0.5s;
+}
+
+/* ---------- KEYFRAMES ---------- */
+
+@keyframes blobPurple {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(70px, -40px, 0) rotate(10deg);
+  }
+
+  100% {
+    transform: translate3d(-20px, 40px, 0) rotate(-8deg);
+  }
+}
+
+@keyframes blobGreen {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(-80px, 30px, 0) rotate(-12deg);
+  }
+
+  100% {
+    transform: translate3d(20px, -40px, 0) rotate(8deg);
+  }
+}
+
+@keyframes blobPink {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  50% {
+    transform: translate3d(300px, -70px, 0) rotate(12deg);
+  }
+
+  100% {
+    transform: translate3d(-600px, 20px, 0) rotate(-10deg);
+  }
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translateX(-3%) translateY(-2%) rotate(0deg);
+  }
+
+  50% {
+    transform: translateX(2%) translateY(3%) rotate(2deg);
+  }
+
+  100% {
+    transform: translateX(-2%) translateY(1%) rotate(-2deg);
+  }
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.9;
+    transform: scale(1.25);
+  }
+}

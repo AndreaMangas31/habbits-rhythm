@@ -1,0 +1,82 @@
+@import "tailwindcss";
+@config "../../tailwind.config.ts";
+
+:root {
+  --background: #f5f4fb;
+  --surface: #ffffff;
+  --surface-hover: #f8f7ff;
+  --foreground: #1a1a2e;
+  --muted: #6f7285;
+
+  --primary: #6d5ff3;
+  --success: #2fbf71;
+  --warning: #f19a38;
+  --info: #3f87f5;
+
+  --habit-1: #6d5ff3;
+  --habit-2: #8b74ff;
+  --habit-3: #3f87f5;
+  --habit-4: #4fb3ff;
+  --habit-5: #2fbf71;
+  --habit-6: #7ccf87;
+  --habit-7: #f19a38;
+  --habit-8: #f16f52;
+
+  --radius-card: 16px;
+
+  --color-background: 245 244 251;
+  --color-surface: 255 255 255;
+  --color-surface-hover: 248 247 255;
+  --color-foreground: 26 26 46;
+  --color-muted: 111 114 133;
+  --color-primary: 109 95 243;
+  --color-success: 47 191 113;
+  --color-warning: 241 154 56;
+  --color-info: 63 135 245;
+
+  --color-habit-1: 109 95 243;
+  --color-habit-2: 139 116 255;
+  --color-habit-3: 63 135 245;
+  --color-habit-4: 79 179 255;
+  --color-habit-5: 47 191 113;
+  --color-habit-6: 124 207 135;
+  --color-habit-7: 241 154 56;
+  --color-habit-8: 241 111 82;
+}
+
+@theme inline {
+  --color-background: rgb(var(--color-background));
+  --color-surface: rgb(var(--color-surface));
+  --color-surface-hover: rgb(var(--color-surface-hover));
+  --color-foreground: rgb(var(--color-foreground));
+  --color-muted: rgb(var(--color-muted));
+  --color-primary: rgb(var(--color-primary));
+  --color-success: rgb(var(--color-success));
+  --color-warning: rgb(var(--color-warning));
+  --color-info: rgb(var(--color-info));
+  --color-habit-1: rgb(var(--color-habit-1));
+  --color-habit-2: rgb(var(--color-habit-2));
+  --color-habit-3: rgb(var(--color-habit-3));
+  --color-habit-4: rgb(var(--color-habit-4));
+  --color-habit-5: rgb(var(--color-habit-5));
+  --color-habit-6: rgb(var(--color-habit-6));
+  --color-habit-7: rgb(var(--color-habit-7));
+  --color-habit-8: rgb(var(--color-habit-8));
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-stat {
+  font-family:
+    var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Spacing convention: base 4px scale; avoid card padding below 16px and section gaps below 24px. */
