@@ -16,7 +16,8 @@ export function useOnboarding() {
   const [selectedHabitIds, setSelectedHabitIds] = useState<string[]>([]);
 
   const selectedHabits = useMemo(
-    () => HABIT_SUGGESTIONS.filter((habit) => selectedHabitIds.includes(habit.id)),
+    () =>
+      HABIT_SUGGESTIONS.filter((habit) => selectedHabitIds.includes(habit.id)),
     [selectedHabitIds],
   );
 

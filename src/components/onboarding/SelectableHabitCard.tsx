@@ -30,13 +30,19 @@ export function SelectableHabitCard({
         "hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-md",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         selected
-          ? cn("border-primary", colorStyles.selectedBg, colorStyles.selectedRing)
+          ? cn(
+              "border-primary",
+              colorStyles.selectedBg,
+              colorStyles.selectedRing,
+            )
           : "border-foreground/10",
       )}
     >
       <div className="flex flex-col items-center gap-2">
-        <Icon className={cn("h-6 w-6", colorStyles.icon)} stroke={1.8} />
-        <span className="text-sm font-semibold text-foreground">{habit.name}</span>
+        <Icon className={cn("h-10 w-10", colorStyles.icon)} stroke={1.8} />
+        <span className="text-sm font-semibold text-foreground">
+          {habit.name}
+        </span>
       </div>
 
       <AnimatePresence>

@@ -7,13 +7,13 @@ export function Background() {
   return (
     <div className="absolute z-0 h-full w-full ">
       {/* Fondo */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#FBF8FF] via-[#F7F4FF] to-[#FAFCFF]" />
+      <div className="absolute inset-0 bg-linear-to-br from-[#FBF8FF] via-[#F7F4FF] to-[#FAFCFF]" />
 
       {/* Aurora */}
       <div className="aurora" />
 
       {/* Glow central */}
-      <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-[35px]" />
+      <div className="absolute left-1/2 top-1/2 h-175 w-175 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 blur-[35px]" />
 
       {/* Blobs */}
       <div className="blob blob-purple" />
