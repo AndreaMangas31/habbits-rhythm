@@ -8,7 +8,7 @@ import {
   HabitSelectionStep,
   WelcomeStep,
 } from "@/components/onboarding";
-import { useOnboarding } from "@/hooks/useOnboarding";
+import { useOnboarding } from "@/features/onboarding";
 
 const stepTransition = {
   stiffness: 210,
@@ -39,7 +39,7 @@ export default function OnboardingPage() {
 
   async function handleFinish() {
     setIsFinishing(true);
-    completeOnboarding();
+    await completeOnboarding();
     await new Promise((resolve) => {
       setTimeout(resolve, 260);
     });

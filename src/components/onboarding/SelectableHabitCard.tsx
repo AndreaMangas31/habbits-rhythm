@@ -2,12 +2,12 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { IconCheck } from "@tabler/icons-react";
-import type { HabitSuggestion } from "@/lib/mock-data/habits";
+import type { HabitSuggestionMock } from "@/features/habits/mock";
 import { cn } from "@/lib/utils/cn";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
 
 type SelectableHabitCardProps = {
-  habit: HabitSuggestion;
+  habit: HabitSuggestionMock;
   selected: boolean;
   onToggle: (habitId: string) => void;
 };

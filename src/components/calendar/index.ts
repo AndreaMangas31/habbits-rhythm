@@ -1,2 +1,1 @@
-// Placeholder for calendar/date components.
-export {};
+export * from "./MonthCalendar";

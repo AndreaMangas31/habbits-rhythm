@@ -7,7 +7,7 @@ import {
   startOfToday,
   subDays,
 } from "date-fns";
-import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
+import { habitsMock } from "@/features/habits/mock";
 import type {
   Habit,
   HabitCheckIn,
@@ -58,7 +58,7 @@ function createHabitGoal(
 function buildHabits(): Habit[] {
   const createdAt = formatISO(subDays(startOfToday(), HISTORY_DAYS));
 
-  return HABIT_SUGGESTIONS.map((suggestion, index) => {
+  return habitsMock.map((suggestion, index) => {
     const habitId = suggestion.id;
 
     return {

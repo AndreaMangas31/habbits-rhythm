@@ -4,6 +4,7 @@ import {
   format,
   parseISO,
   startOfMonth,
+  startOfToday,
   startOfWeek,
 } from "date-fns";
 import type { HabitCheckIn } from "@/types/habit";
@@ -32,13 +33,16 @@ export function formatDayLabel(
 export function calculateStreaks(checkIns: HabitCheckIn[]): StreakSummary {
   const daily = [...checkIns]
     .sort((a, b) => (a.date > b.date ? 1 : -1))
-    .map((item) => item.status === "completed");
+    .map((item) => ({
+      date: item.date,
+      completed: item.status === "completed",
+    }));
 
   let longest = 0;
   let currentRun = 0;
 
-  daily.forEach((completed) => {
-    if (!completed) {
+  daily.forEach((day) => {
+    if (!day.completed) {
       currentRun = 0;
       return;
     }
@@ -47,9 +51,18 @@ export function calculateStreaks(checkIns: HabitCheckIn[]): StreakSummary {
     longest = Math.max(longest, currentRun);
   });
 
+  const todayKey = format(startOfToday(), "yyyy-MM-dd");
   let current = 0;
+
   for (let index = daily.length - 1; index >= 0; index -= 1) {
-    if (!daily[index]) {
+    const day = daily[index]!;
+
+    // Today's incomplete check-in shouldn't break an active streak yet.
+    if (day.date === todayKey && !day.completed) {
+      continue;
+    }
+
+    if (!day.completed) {
       break;
     }
 

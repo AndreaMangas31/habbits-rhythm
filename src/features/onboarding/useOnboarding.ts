@@ -1,13 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ONBOARDING_STORAGE_KEYS } from "@/lib/mock/store";
+import { habitsMock } from "@/features/habits/mock";
 import { setStorageItem } from "@/lib/storage";
+import { routes } from "@/shared/routes";
 
-export const ONBOARDING_STORAGE_KEYS = {
-  selectedHabitIds: "flowhabit:onboarding:selected-habit-ids",
-  completedAt: "flowhabit:onboarding:completed-at",
-} as const;
+export { ONBOARDING_STORAGE_KEYS };
 
 export type OnboardingStep = 1 | 2 | 3;
 
@@ -16,8 +16,7 @@ export function useOnboarding() {
   const [selectedHabitIds, setSelectedHabitIds] = useState<string[]>([]);
 
   const selectedHabits = useMemo(
-    () =>
-      HABIT_SUGGESTIONS.filter((habit) => selectedHabitIds.includes(habit.id)),
+    () => habitsMock.filter((habit) => selectedHabitIds.includes(habit.id)),
     [selectedHabitIds],
   );
 
@@ -41,10 +40,11 @@ export function useOnboarding() {
     );
   }
 
-  function completeOnboarding() {
+  async function completeOnboarding() {
     const now = new Date().toISOString();
     setStorageItem(ONBOARDING_STORAGE_KEYS.selectedHabitIds, selectedHabitIds);
     setStorageItem(ONBOARDING_STORAGE_KEYS.completedAt, now);
+    await fetchJSON(routes.ONBOARDING.COMPLETE);
   }
 
   return {
