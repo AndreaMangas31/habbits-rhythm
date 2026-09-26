@@ -1,4 +1,4 @@
-type StorageValue =
+export type StorageValue =
   | string
   | number
   | boolean

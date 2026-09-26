@@ -7,7 +7,7 @@ import {
   ConfirmationStep,
   HabitSelectionStep,
   WelcomeStep,
-} from "@/components/onboarding";
+} from "@/features/onboarding";
 import { useOnboarding } from "@/hooks/useOnboarding";
 
 const stepTransition = {

@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
-import { Translate } from "@/components/layout/AppTranslate";
+import { Translate } from "@/shared/layout/AppTranslate";
 
 type OnboardingProgressProps = {
   step: number;

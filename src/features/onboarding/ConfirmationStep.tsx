@@ -2,11 +2,11 @@
 
 import { IconCheck } from "@tabler/icons-react";
 import type { HabitSuggestion } from "@/lib/mock-data/habits";
-import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
-import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
-import { Button } from "@/components/ui";
+import { OnboardingProgress } from "@/features/onboarding/OnboardingProgress";
+import { HABIT_COLOR_STYLES } from "@/features/onboarding/color-map";
+import { Button } from "@/shared/ui";
 import { cn } from "@/lib/utils/cn";
-import { Translate } from "@/components/layout/AppTranslate";
+import { Translate } from "@/shared/layout/AppTranslate";
 
 type ConfirmationStepProps = {
   habits: HabitSuggestion[];
@@ -29,7 +29,9 @@ export function ConfirmationStep({
             <Translate fallback="…">¡Genial! Estos son tus hábitos</Translate>
           </h2>
           <p className="mt-2 text-sm text-muted sm:text-base">
-            <Translate fallback="…">Siempre puedes editarlos más tarde.</Translate>
+            <Translate fallback="…">
+              Siempre puedes editarlos más tarde.
+            </Translate>
           </p>
         </header>
 

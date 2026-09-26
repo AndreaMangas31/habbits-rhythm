@@ -1,9 +1,9 @@
 "use client";
 
 import { IconArrowRight, IconLeaf } from "@tabler/icons-react";
-import { Button } from "@/components/ui";
-import { Background } from "../ui/Backgound";
-import { Translate } from "@/components/layout/AppTranslate";
+import { Button } from "@/shared/ui";
+import { Background } from "../../shared/ui/Backgound";
+import { Translate } from "@/shared/layout/AppTranslate";
 
 type WelcomeStepProps = {
   onStart: () => void;
@@ -25,11 +25,18 @@ export function WelcomeStep({ onStart }: WelcomeStepProps) {
           className=" w-40"
         />
         <h1 className=" text-3xl font-bold  text-foreground sm:text-5xl">
-          <span className="block"><Translate fallback="…">Pequeños hábitos,</Translate></span>
-          <span className="block text-primary"><Translate fallback="…">grandes cambios.</Translate></span>
+          <span className="block">
+            <Translate fallback="…">Pequeños hábitos,</Translate>
+          </span>
+          <span className="block text-primary">
+            <Translate fallback="…">grandes cambios.</Translate>
+          </span>
         </h1>
         <p className=" text-base text-muted sm:text-lg">
-          <Translate fallback="…">Construye tu rutina ideal y conviértela en progreso visible cada día.</Translate>
+          <Translate fallback="…">
+            Construye tu rutina ideal y conviértela en progreso visible cada
+            día.
+          </Translate>
         </p>
 
         <Button

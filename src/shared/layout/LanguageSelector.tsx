@@ -7,7 +7,7 @@ import {
   SUPPORTED_LANGUAGES,
   type SupportedLanguage,
   useLanguageStore,
-} from "@/components/layout/LanguageStore";
+} from "@/shared/layout/LanguageStore";
 
 const languageLabels: Record<SupportedLanguage, string> = {
   es: "Español",
@@ -31,7 +31,9 @@ export function LanguageSelector() {
       <span className="sr-only">Seleccionar idioma</span>
       <select
         value={language}
-        onChange={(event) => setLanguage(event.target.value as SupportedLanguage)}
+        onChange={(event) =>
+          setLanguage(event.target.value as SupportedLanguage)
+        }
         aria-label="Seleccionar idioma"
         disabled={isTranslating}
         className="cursor-pointer bg-transparent outline-none disabled:cursor-wait"
@@ -44,7 +46,11 @@ export function LanguageSelector() {
       </select>
       <span
         aria-live="polite"
-        className={isTranslating ? "inline-flex items-center gap-1 text-xs text-primary" : "sr-only"}
+        className={
+          isTranslating
+            ? "inline-flex items-center gap-1 text-xs text-primary"
+            : "sr-only"
+        }
       >
         <IconLoader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
         Traduciendo…

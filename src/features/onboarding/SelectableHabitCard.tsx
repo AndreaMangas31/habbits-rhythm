@@ -4,8 +4,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { IconCheck } from "@tabler/icons-react";
 import type { HabitSuggestion } from "@/lib/mock-data/habits";
 import { cn } from "@/lib/utils/cn";
-import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
-import { Translate } from "@/components/layout/AppTranslate";
+import { HABIT_COLOR_STYLES } from "@/features/onboarding/color-map";
+import { Translate } from "@/shared/layout/AppTranslate";
 
 type SelectableHabitCardProps = {
   habit: HabitSuggestion;

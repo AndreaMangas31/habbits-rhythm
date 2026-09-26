@@ -4,7 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import "@mantine/core/styles.css";
 import "@mantine/dates/styles.css";
 import "./globals.css";
-import { Providers } from "@/components/layout/providers";
+import { Providers } from "@/shared/layout/providers";
 
 export const metadata: Metadata = {
   title: "Flowhabit",

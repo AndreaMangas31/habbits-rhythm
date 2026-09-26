@@ -1,11 +1,11 @@
 "use client";
 
 import { IconArrowRight } from "@tabler/icons-react";
-import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
-import { SelectableHabitCard } from "@/components/onboarding/SelectableHabitCard";
-import { Button } from "@/components/ui";
+import { OnboardingProgress } from "@/features/onboarding/OnboardingProgress";
+import { SelectableHabitCard } from "@/features/onboarding/SelectableHabitCard";
+import { Button } from "@/shared/ui";
 import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
-import { Translate } from "@/components/layout/AppTranslate";
+import { Translate } from "@/shared/layout/AppTranslate";
 
 type HabitSelectionStepProps = {
   selectedHabitIds: string[];
@@ -31,7 +31,9 @@ export function HabitSelectionStep({
             <Translate fallback="…">¿Qué hábitos quieres construir?</Translate>
           </h2>
           <p className="mt-2 text-sm text-muted sm:text-base">
-            <Translate fallback="…">Selecciona los que más te importan para iniciar tu rutina.</Translate>
+            <Translate fallback="…">
+              Selecciona los que más te importan para iniciar tu rutina.
+            </Translate>
           </p>
         </header>
 
