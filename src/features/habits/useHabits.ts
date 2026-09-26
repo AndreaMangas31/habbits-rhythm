@@ -13,46 +13,71 @@ export type HabitListItem = {
   completedToday: boolean;
 };
 
+function toListItems(habits: Habit[], checkIns: HabitCheckIn[]): HabitListItem[] {
+  const today = new Date();
+
+  return habits.map((habit) => {
+    const habitCheckIns = checkIns.filter((item) => item.habitId === habit.id);
+    return {
+      habit,
+      streak: calculateStreaks(habitCheckIns).current,
+      completedToday: isCompletedOnDate(checkIns, habit.id, today),
+    };
+  });
+}
+
 export function useHabits() {
   const [items, setItems] = useState<HabitListItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    let cancelled = false;
 
+    void (async () => {
+      try {
+        const [habits, checkIns] = await Promise.all([
+          fetchJSON<Habit[]>(routes.HABITS.LIST),
+          fetchJSON<HabitCheckIn[]>(routes.CHECK_INS.LIST),
+        ]);
+        if (!cancelled) {
+          setItems(toListItems(habits, checkIns));
+          setError(null);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : "No se pudieron cargar los hábitos",
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const refresh = useCallback(async () => {
     try {
       const [habits, checkIns] = await Promise.all([
         fetchJSON<Habit[]>(routes.HABITS.LIST),
         fetchJSON<HabitCheckIn[]>(routes.CHECK_INS.LIST),
       ]);
-      const today = new Date();
-
-      setItems(
-        habits.map((habit) => {
-          const habitCheckIns = checkIns.filter(
-            (item) => item.habitId === habit.id,
-          );
-          return {
-            habit,
-            streak: calculateStreaks(habitCheckIns).current,
-            completedToday: isCompletedOnDate(checkIns, habit.id, today),
-          };
-        }),
-      );
+      setItems(toListItems(habits, checkIns));
+      setError(null);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "No se pudieron cargar los hábitos",
       );
-    } finally {
-      setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    void refresh();
-  }, [refresh]);
 
   const toggleToday = useCallback(
     async (habitId: string) => {

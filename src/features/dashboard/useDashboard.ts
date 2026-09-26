@@ -11,25 +11,49 @@ export function useDashboard() {
   const [error, setError] = useState<string | null>(null);
   const [pendingId, setPendingId] = useState<string | null>(null);
 
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    let cancelled = false;
 
+    void (async () => {
+      try {
+        const summary = await fetchJSON<DashboardSummary>(
+          routes.DASHBOARD.SUMMARY,
+        );
+        if (!cancelled) {
+          setData(summary);
+          setError(null);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error
+              ? err.message
+              : "No se pudo cargar el dashboard",
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const refresh = useCallback(async () => {
     try {
       const summary = await fetchJSON<DashboardSummary>(routes.DASHBOARD.SUMMARY);
       setData(summary);
+      setError(null);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "No se pudo cargar el dashboard",
       );
-    } finally {
-      setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    void refresh();
-  }, [refresh]);
 
   const toggleToday = useCallback(async (habitId: string) => {
     setPendingId(habitId);

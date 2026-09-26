@@ -30,41 +30,60 @@ export function useHabitDetail(habitId: string) {
   const [savingNote, setSavingNote] = useState(false);
   const [toggling, setToggling] = useState(false);
 
-  const refresh = useCallback(async () => {
-    setLoading(true);
-    setError(null);
+  useEffect(() => {
+    let cancelled = false;
 
+    void (async () => {
+      try {
+        const detail = await fetchJSON<HabitDetailData>(
+          routes.HABITS.DETAIL(habitId),
+        );
+        if (!cancelled) {
+          setData(detail);
+          setError(null);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(
+            err instanceof Error ? err.message : "Error al cargar el hábito",
+          );
+          setData(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [habitId]);
+
+  const refresh = useCallback(async () => {
     try {
       const detail = await fetchJSON<HabitDetailData>(
         routes.HABITS.DETAIL(habitId),
       );
       setData(detail);
+      setError(null);
     } catch (err) {
       setError(
         err instanceof Error ? err.message : "Error al cargar el hábito",
       );
-      setData(null);
-    } finally {
-      setLoading(false);
     }
   }, [habitId]);
-
-  useEffect(() => {
-    void refresh();
-  }, [refresh]);
 
   const checkIn = useCallback(async () => {
     setToggling(true);
     try {
       await fetchJSON(routes.HABITS.CHECK_IN(habitId));
-      const detail = await fetchJSON<HabitDetailData>(
-        routes.HABITS.DETAIL(habitId),
-      );
-      setData(detail);
+      await refresh();
     } finally {
       setToggling(false);
     }
-  }, [habitId]);
+  }, [habitId, refresh]);
 
   const saveNote = useCallback(
     async (content: string) => {
@@ -74,15 +93,12 @@ export function useHabitDetail(habitId: string) {
         await fetchJSON(routes.HABITS.ADD_NOTE(habitId), {
           json: { content },
         });
-        const detail = await fetchJSON<HabitDetailData>(
-          routes.HABITS.DETAIL(habitId),
-        );
-        setData(detail);
+        await refresh();
       } finally {
         setSavingNote(false);
       }
     },
-    [habitId],
+    [habitId, refresh],
   );
 
   return {

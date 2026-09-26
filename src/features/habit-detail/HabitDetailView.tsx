@@ -13,8 +13,8 @@ import { MonthCalendar } from "@/components/calendar";
 import { TrendChart } from "@/components/charts";
 import { Button, Card, Skeleton } from "@/components/ui";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
+import { HabitIcon } from "@/components/habit";
 import { useHabitDetail } from "@/features/habit-detail/useHabitDetail";
-import { getHabitIcon } from "@/lib/icons/habit-icons";
 import { categoryFromHabit } from "@/lib/utils/habit-stats";
 import { cn } from "@/lib/utils/cn";
 
@@ -51,7 +51,6 @@ export function HabitDetailView({ habitId }: HabitDetailViewProps) {
   }
 
   const { habit, stats, checkIns, notes, trend, completedToday } = data;
-  const Icon = getHabitIcon(habit.icon);
   const color = HABIT_COLOR_STYLES[habit.color];
 
   async function handleSaveNote() {
@@ -153,7 +152,7 @@ export function HabitDetailView({ habitId }: HabitDetailViewProps) {
                   color.tintBg,
                 )}
               >
-                <Icon className={cn("h-5 w-5", color.icon)} stroke={1.8} />
+                <HabitIcon name={habit.icon} className={cn("h-5 w-5", color.icon)} />
               </span>
               <div>
                 <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
