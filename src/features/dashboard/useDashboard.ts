@@ -1,10 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  getDashboardSummary,
-  toggleHabitCheckIn,
-} from "@/lib/api/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 import type { DashboardSummary } from "@/types/dashboard";
 
 export function useDashboard() {
@@ -14,14 +12,17 @@ export function useDashboard() {
   const [pendingId, setPendingId] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
+    ensureMockRegistry();
     setLoading(true);
     setError(null);
 
     try {
-      const summary = await getDashboardSummary();
+      const summary = await fetchJSON<DashboardSummary>("/api/dashboard");
       setData(summary);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudo cargar el dashboard");
+      setError(
+        err instanceof Error ? err.message : "No se pudo cargar el dashboard",
+      );
     } finally {
       setLoading(false);
     }
@@ -31,24 +32,22 @@ export function useDashboard() {
     void refresh();
   }, [refresh]);
 
-  const toggleToday = useCallback(
-    async (habitId: string) => {
-      setPendingId(habitId);
+  const toggleToday = useCallback(async (habitId: string) => {
+    ensureMockRegistry();
+    setPendingId(habitId);
 
-      try {
-        await toggleHabitCheckIn(habitId);
-        const summary = await getDashboardSummary();
-        setData(summary);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "No se pudo actualizar el hábito",
-        );
-      } finally {
-        setPendingId(null);
-      }
-    },
-    [],
-  );
+    try {
+      await fetchJSON(`/api/habits/${habitId}/check-in`, { method: "POST" });
+      const summary = await fetchJSON<DashboardSummary>("/api/dashboard");
+      setData(summary);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "No se pudo actualizar el hábito",
+      );
+    } finally {
+      setPendingId(null);
+    }
+  }, []);
 
   return {
     data,

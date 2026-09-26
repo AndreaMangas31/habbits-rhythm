@@ -2,18 +2,19 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { isOnboardingCompleted } from "@/lib/api/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 
 export default function HomePage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isOnboardingCompleted()) {
-      router.replace("/dashboard");
-      return;
-    }
-
-    router.replace("/onboarding");
+    ensureMockRegistry();
+    void fetchJSON<{ completed: boolean }>("/api/onboarding/status").then(
+      (status) => {
+        router.replace(status.completed ? "/dashboard" : "/onboarding");
+      },
+    );
   }, [router]);
 
   return (

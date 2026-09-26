@@ -2,14 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { Card, Skeleton } from "@/components/ui";
-import { getDashboardSummary } from "@/lib/api/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 import type { ActiveGoalProgress } from "@/types/user";
+import type { DashboardSummary } from "@/types/dashboard";
 
 export default function GoalsPage() {
   const [goals, setGoals] = useState<ActiveGoalProgress[] | null>(null);
 
   useEffect(() => {
-    void getDashboardSummary().then((data) => setGoals(data.goals));
+    ensureMockRegistry();
+    void fetchJSON<DashboardSummary>("/api/dashboard").then((data) =>
+      setGoals(data.goals),
+    );
   }, []);
 
   return (

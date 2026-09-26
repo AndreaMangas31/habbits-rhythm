@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
-import { createHabit } from "@/lib/api/habits";
+import { useHabits } from "@/features/habits";
 import { Button, Card } from "@/components/ui";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
 import { cn } from "@/lib/utils/cn";
 
 export default function NewHabitPage() {
   const router = useRouter();
+  const { createHabit } = useHabits();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
 
@@ -38,7 +39,10 @@ export default function NewHabitPage() {
         </p>
       </div>
 
-      <Card padding="lg" className="grid gap-3 border border-foreground/5 sm:grid-cols-2">
+      <Card
+        padding="lg"
+        className="grid gap-3 border border-foreground/5 sm:grid-cols-2"
+      >
         {HABIT_SUGGESTIONS.map((habit) => {
           const Icon = habit.icon;
           const color = HABIT_COLOR_STYLES[habit.color];
@@ -66,7 +70,9 @@ export default function NewHabitPage() {
               </span>
               <span>
                 <span className="block font-medium">{habit.name}</span>
-                <span className="block text-xs text-muted">{habit.description}</span>
+                <span className="block text-xs text-muted">
+                  {habit.description}
+                </span>
               </span>
             </button>
           );

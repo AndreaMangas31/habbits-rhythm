@@ -3,20 +3,15 @@
 import { useRouter } from "next/navigation";
 import { MOCK_USER } from "@/lib/mock-data/user";
 import { Button, Card } from "@/components/ui";
-import {
-  ONBOARDING_STORAGE_KEYS,
-  resetMockData,
-} from "@/lib/api/habits";
-import { STORAGE_KEYS, removeStorageItem, setStorageItem } from "@/lib/storage";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 
 export default function SettingsPage() {
   const router = useRouter();
 
-  function handleResetDemo() {
-    removeStorageItem(ONBOARDING_STORAGE_KEYS.completedAt);
-    removeStorageItem(ONBOARDING_STORAGE_KEYS.selectedHabitIds);
-    setStorageItem(STORAGE_KEYS.initialized, false);
-    resetMockData();
+  async function handleResetDemo() {
+    ensureMockRegistry();
+    await fetchJSON("/api/demo/reset", { method: "POST" });
     router.push("/onboarding");
   }
 
@@ -43,13 +38,22 @@ export default function SettingsPage() {
         </div>
       </Card>
 
-      <Card padding="lg" className="space-y-3 border border-foreground/5 shadow-card">
+      <Card
+        padding="lg"
+        className="space-y-3 border border-foreground/5 shadow-card"
+      >
         <h3 className="font-semibold">Datos mock</h3>
         <p className="text-sm text-muted">
           Reinicia el onboarding y vuelve a generar el historial local de
           hábitos, check-ins y notas.
         </p>
-        <Button variant="warning" className="rounded-xl" onClick={handleResetDemo}>
+        <Button
+          variant="warning"
+          className="rounded-xl"
+          onClick={() => {
+            void handleResetDemo();
+          }}
+        >
           Reiniciar demo
         </Button>
       </Card>

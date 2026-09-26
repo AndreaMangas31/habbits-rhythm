@@ -1,48 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import { IconPlus } from "@tabler/icons-react";
 import { HabitCard } from "@/components/habit";
 import { Card, Skeleton } from "@/components/ui";
-import { getHabits, getCheckIns, toggleHabitCheckIn } from "@/lib/api/habits";
-import { calculateStreaks } from "@/lib/utils/date";
-import { isCompletedOnDate } from "@/lib/utils/habit-stats";
-import type { Habit } from "@/types/habit";
-
-type HabitListItem = {
-  habit: Habit;
-  streak: number;
-  completedToday: boolean;
-};
+import { useHabits } from "@/features/habits";
 
 export default function HabitsPage() {
-  const [items, setItems] = useState<HabitListItem[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  async function load() {
-    setLoading(true);
-    const [habits, checkIns] = await Promise.all([getHabits(), getCheckIns()]);
-    const today = new Date();
-
-    setItems(
-      habits.map((habit) => {
-        const habitCheckIns = checkIns.filter(
-          (item) => item.habitId === habit.id,
-        );
-        return {
-          habit,
-          streak: calculateStreaks(habitCheckIns).current,
-          completedToday: isCompletedOnDate(checkIns, habit.id, today),
-        };
-      }),
-    );
-    setLoading(false);
-  }
-
-  useEffect(() => {
-    void load();
-  }, []);
+  const { items, loading, toggleToday } = useHabits();
 
   return (
     <div className="space-y-5 px-4 py-5 sm:px-6 lg:px-8">
@@ -76,9 +41,8 @@ export default function HabitsPage() {
               streak={item.streak}
               completedToday={item.completedToday}
               href={`/habits/${item.habit.id}`}
-              onToggle={async () => {
-                await toggleHabitCheckIn(item.habit.id);
-                await load();
+              onToggle={() => {
+                void toggleToday(item.habit.id);
               }}
             />
           ))}

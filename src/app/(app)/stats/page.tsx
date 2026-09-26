@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import { Card, Skeleton } from "@/components/ui";
 import { ConsistencyHeatmap, TrendChart } from "@/components/charts";
-import { getDashboardSummary } from "@/lib/api/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 import type { DashboardSummary } from "@/types/dashboard";
 
 export default function StatsPage() {
   const [data, setData] = useState<DashboardSummary | null>(null);
 
   useEffect(() => {
-    void getDashboardSummary().then(setData);
+    ensureMockRegistry();
+    void fetchJSON<DashboardSummary>("/api/dashboard").then(setData);
   }, []);
 
   if (!data) {

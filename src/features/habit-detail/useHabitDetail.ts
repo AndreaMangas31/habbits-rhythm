@@ -1,15 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  addNote,
-  getHabitDetail,
-  toggleHabitCheckIn,
-} from "@/lib/api/habits";
-import type { Habit, HabitCheckIn, HabitNote } from "@/types/habit";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 import type { TrendPoint } from "@/types/dashboard";
+import type { Habit, HabitCheckIn, HabitNote } from "@/types/habit";
+import type { AppUser } from "@/types/user";
 
-type HabitDetailData = {
+export type HabitDetailData = {
   habit: Habit;
   checkIns: HabitCheckIn[];
   notes: HabitNote[];
@@ -22,6 +20,7 @@ type HabitDetailData = {
   };
   trend: TrendPoint[];
   completedToday: boolean;
+  user: AppUser;
 };
 
 export function useHabitDetail(habitId: string) {
@@ -32,19 +31,20 @@ export function useHabitDetail(habitId: string) {
   const [toggling, setToggling] = useState(false);
 
   const refresh = useCallback(async () => {
+    ensureMockRegistry();
     setLoading(true);
     setError(null);
 
     try {
-      const detail = await getHabitDetail(habitId);
-      if (!detail) {
-        setError("Hábito no encontrado");
-        setData(null);
-        return;
-      }
+      const detail = await fetchJSON<HabitDetailData>(
+        `/api/habits/${habitId}/detail`,
+      );
       setData(detail);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al cargar el hábito");
+      setError(
+        err instanceof Error ? err.message : "Error al cargar el hábito",
+      );
+      setData(null);
     } finally {
       setLoading(false);
     }
@@ -55,11 +55,14 @@ export function useHabitDetail(habitId: string) {
   }, [refresh]);
 
   const checkIn = useCallback(async () => {
+    ensureMockRegistry();
     setToggling(true);
     try {
-      await toggleHabitCheckIn(habitId);
-      const detail = await getHabitDetail(habitId);
-      if (detail) setData(detail);
+      await fetchJSON(`/api/habits/${habitId}/check-in`, { method: "POST" });
+      const detail = await fetchJSON<HabitDetailData>(
+        `/api/habits/${habitId}/detail`,
+      );
+      setData(detail);
     } finally {
       setToggling(false);
     }
@@ -68,11 +71,17 @@ export function useHabitDetail(habitId: string) {
   const saveNote = useCallback(
     async (content: string) => {
       if (!content.trim()) return;
+      ensureMockRegistry();
       setSavingNote(true);
       try {
-        await addNote(habitId, content);
-        const detail = await getHabitDetail(habitId);
-        if (detail) setData(detail);
+        await fetchJSON(`/api/habits/${habitId}/notes`, {
+          method: "POST",
+          json: { content },
+        });
+        const detail = await fetchJSON<HabitDetailData>(
+          `/api/habits/${habitId}/detail`,
+        );
+        setData(detail);
       } finally {
         setSavingNote(false);
       }

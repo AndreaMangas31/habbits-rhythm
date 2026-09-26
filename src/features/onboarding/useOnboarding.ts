@@ -1,10 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  ONBOARDING_STORAGE_KEYS,
-  resetMockData,
-} from "@/lib/api/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
+import { ONBOARDING_STORAGE_KEYS } from "@/lib/mock/store";
 import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
 import { setStorageItem } from "@/lib/storage";
 
@@ -42,12 +41,12 @@ export function useOnboarding() {
     );
   }
 
-  function completeOnboarding() {
+  async function completeOnboarding() {
+    ensureMockRegistry();
     const now = new Date().toISOString();
     setStorageItem(ONBOARDING_STORAGE_KEYS.selectedHabitIds, selectedHabitIds);
     setStorageItem(ONBOARDING_STORAGE_KEYS.completedAt, now);
-    // Re-seed mock data filtered to the habits chosen during onboarding.
-    resetMockData();
+    await fetchJSON("/api/onboarding/complete", { method: "POST" });
   }
 
   return {

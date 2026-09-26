@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { Card, Skeleton } from "@/components/ui";
 import { MonthCalendar } from "@/components/calendar";
-import { getCheckIns, getHabits } from "@/lib/api/habits";
+import { fetchJSON } from "@/lib/http/fetch-json";
+import { ensureMockRegistry } from "@/lib/http/register-mocks";
 import type { Habit, HabitCheckIn } from "@/types/habit";
 import { getHabitIcon } from "@/lib/icons/habit-icons";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
@@ -16,10 +17,11 @@ export default function CalendarPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    ensureMockRegistry();
     void (async () => {
       const [nextHabits, nextCheckIns] = await Promise.all([
-        getHabits(),
-        getCheckIns(),
+        fetchJSON<Habit[]>("/api/habits"),
+        fetchJSON<HabitCheckIn[]>("/api/check-ins"),
       ]);
       setHabits(nextHabits);
       setCheckIns(nextCheckIns);
@@ -58,7 +60,9 @@ export default function CalendarPage() {
                   onClick={() => setSelectedId(habit.id)}
                   className={cn(
                     "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-sm",
-                    active ? "bg-primary/10 text-primary" : "hover:bg-surface-hover",
+                    active
+                      ? "bg-primary/10 text-primary"
+                      : "hover:bg-surface-hover",
                   )}
                 >
                   <Icon className={cn("h-4 w-4", color.icon)} />
