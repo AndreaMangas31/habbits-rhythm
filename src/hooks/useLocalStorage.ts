@@ -4,7 +4,10 @@ import { useCallback, useState } from "react";
 import { getStorageItem, setStorageItem } from "@/lib/storage/local-storage";
 import type { StorageValue } from "@/lib/storage/local-storage";
 
-export function useLocalStorage<T extends StorageValue>(key: string, initialValue: T) {
+export function useLocalStorage<T extends StorageValue>(
+  key: string,
+  initialValue: T,
+) {
   const [value, setValue] = useState<T>(() =>
     getStorageItem<T>(key, initialValue),
   );
