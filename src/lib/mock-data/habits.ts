@@ -41,7 +41,7 @@ export const HABIT_SUGGESTIONS: HabitSuggestion[] = [
   },
   {
     id: "meditation",
-    name: "Meditacion",
+    name: "Meditación",
     description: "Respirar y bajar revoluciones durante algunos minutos.",
     icon: IconBrain,
     iconName: "IconBrain",
@@ -65,7 +65,7 @@ export const HABIT_SUGGESTIONS: HabitSuggestion[] = [
   },
   {
     id: "healthy-eating",
-    name: "Alimentacion saludable",
+    name: "Alimentación saludable",
     description: "Priorizar comidas simples, balanceadas y sostenibles.",
     icon: IconSalad,
     iconName: "IconSalad",

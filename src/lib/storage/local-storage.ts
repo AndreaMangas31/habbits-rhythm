@@ -1,11 +1,3 @@
-type StorageValue =
-  | string
-  | number
-  | boolean
-  | null
-  | Record<string, unknown>
-  | unknown[];
-
 export const STORAGE_KEYS = {
   habits: "flowhabit:habits",
   checkIns: "flowhabit:checkins",
@@ -38,7 +30,7 @@ export function getStorageItem<T>(key: string, fallback: T): T {
   }
 }
 
-export function setStorageItem<T extends StorageValue>(key: string, value: T) {
+export function setStorageItem(key: string, value: unknown) {
   if (!canUseLocalStorage()) {
     return false;
   }

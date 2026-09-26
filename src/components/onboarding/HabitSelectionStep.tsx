@@ -27,10 +27,10 @@ export function HabitSelectionStep({
 
         <header className="mt-6 text-center">
           <h2 className="text-2xl font-semibold text-foreground sm:text-3xl">
-            Que habitos quieres construir?
+            ¿Qué hábitos quieres construir?
           </h2>
           <p className="mt-2 text-sm text-muted sm:text-base">
-            Selecciona los que mas te importan para iniciar tu rutina.
+            Selecciona los que más te importan para iniciar tu rutina.
           </p>
         </header>
 

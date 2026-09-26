@@ -25,10 +25,10 @@ export function ConfirmationStep({
 
         <header className="mt-6 text-center">
           <h2 className="text-2xl font-semibold text-foreground sm:text-3xl">
-            Genial! Estos son tus habitos
+            ¡Genial! Estos son tus hábitos
           </h2>
           <p className="mt-2 text-sm text-muted sm:text-base">
-            Siempre puedes editarlos mas tarde.
+            Siempre puedes editarlos más tarde.
           </p>
         </header>
 

@@ -1,3 +1,7 @@
+"use client";
+
+import { DashboardView } from "@/features/dashboard";
+
 export default function DashboardPage() {
-  return <main className="p-6">Dashboard placeholder</main>;
+  return <DashboardView />;
 }

@@ -1,2 +1,2 @@
-// Placeholder for dashboard feature modules.
-export {};
+export * from "./DashboardView";
+export * from "./useDashboard";

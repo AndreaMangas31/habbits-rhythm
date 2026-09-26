@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import {
+  ONBOARDING_STORAGE_KEYS,
+  resetMockData,
+} from "@/lib/api/habits";
 import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
 import { setStorageItem } from "@/lib/storage";
 
-export const ONBOARDING_STORAGE_KEYS = {
-  selectedHabitIds: "flowhabit:onboarding:selected-habit-ids",
-  completedAt: "flowhabit:onboarding:completed-at",
-} as const;
+export { ONBOARDING_STORAGE_KEYS };
 
 export type OnboardingStep = 1 | 2 | 3;
 
@@ -45,6 +46,8 @@ export function useOnboarding() {
     const now = new Date().toISOString();
     setStorageItem(ONBOARDING_STORAGE_KEYS.selectedHabitIds, selectedHabitIds);
     setStorageItem(ONBOARDING_STORAGE_KEYS.completedAt, now);
+    // Re-seed mock data filtered to the habits chosen during onboarding.
+    resetMockData();
   }
 
   return {

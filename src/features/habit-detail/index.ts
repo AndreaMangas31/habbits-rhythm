@@ -1,2 +1,2 @@
-// Placeholder for habit detail feature modules.
-export {};
+export * from "./HabitDetailView";
+export * from "./useHabitDetail";
