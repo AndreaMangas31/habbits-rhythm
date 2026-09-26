@@ -2,6 +2,9 @@
 
 import { MantineProvider, createTheme } from "@mantine/core";
 import type { MantineColorsTuple } from "@mantine/core";
+import { LanguagerProvider } from "@languager-ai/sdk/react";
+import { LanguageSelector } from "@/components/layout/LanguageSelector";
+import { LanguageStoreProvider } from "@/components/layout/LanguageStore";
 
 const primaryPalette: MantineColorsTuple = [
   "#f2f0ff",
@@ -81,12 +84,26 @@ type ProvidersProps = {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <MantineProvider
-      theme={theme}
-      defaultColorScheme="light"
-      forceColorScheme="light"
+    <LanguagerProvider
+      config={{
+        apiKey: process.env.NEXT_PUBLIC_LANGUAGER_API_KEY ?? "",
+        baseUrl: process.env.NEXT_PUBLIC_LANGUAGER_API_URL ?? "https://api.languager.ai/v1",
+        defaultSourceLang: "es",
+        sessionEndpoint: "/api/languager/session",
+      }}
+      defaultLanguage="es"
+      fallback={(text) => <span className="animate-pulse">{text}</span>}
     >
-      {children}
-    </MantineProvider>
+      <LanguageStoreProvider>
+        <MantineProvider
+          theme={theme}
+          defaultColorScheme="light"
+          forceColorScheme="light"
+        >
+          {children}
+          <LanguageSelector />
+        </MantineProvider>
+      </LanguageStoreProvider>
+    </LanguagerProvider>
   );
 }

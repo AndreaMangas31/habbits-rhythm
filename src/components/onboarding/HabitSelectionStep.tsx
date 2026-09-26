@@ -5,6 +5,7 @@ import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
 import { SelectableHabitCard } from "@/components/onboarding/SelectableHabitCard";
 import { Button } from "@/components/ui";
 import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
+import { Translate } from "@/components/layout/AppTranslate";
 
 type HabitSelectionStepProps = {
   selectedHabitIds: string[];
@@ -27,10 +28,10 @@ export function HabitSelectionStep({
 
         <header className="mt-6 text-center">
           <h2 className="text-2xl font-semibold text-foreground sm:text-3xl">
-            Que habitos quieres construir?
+            <Translate fallback="…">¿Qué hábitos quieres construir?</Translate>
           </h2>
           <p className="mt-2 text-sm text-muted sm:text-base">
-            Selecciona los que mas te importan para iniciar tu rutina.
+            <Translate fallback="…">Selecciona los que más te importan para iniciar tu rutina.</Translate>
           </p>
         </header>
 
@@ -49,7 +50,7 @@ export function HabitSelectionStep({
       <footer className="fixed inset-x-0 bottom-0 z-20 border-t border-foreground/10 bg-background/90 px-4 py-3 backdrop-blur sm:px-6">
         <div className="mx-auto flex w-full max-w-5xl items-center justify-between gap-3">
           <p className="text-sm font-medium text-success font-stat">
-            {selectedCount} seleccionados
+            <Translate fallback="…">{`${selectedCount} seleccionados`}</Translate>
           </p>
           <Button
             size="lg"
@@ -58,7 +59,7 @@ export function HabitSelectionStep({
             disabled={!canContinue}
             aria-disabled={!canContinue}
           >
-            Continuar
+            <Translate fallback="…">Continuar</Translate>
             <IconArrowRight className="ml-2 h-4 w-4" stroke={2.2} />
           </Button>
         </div>

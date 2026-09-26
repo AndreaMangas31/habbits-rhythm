@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
+import { Translate } from "@/components/layout/AppTranslate";
 
 type OnboardingProgressProps = {
   step: number;
@@ -20,7 +21,7 @@ export function OnboardingProgress({
     <div className={cn("space-y-2", className)}>
       <div className="flex items-center justify-between text-sm font-medium text-muted">
         <span>
-          Paso {step} de {totalSteps}
+          <Translate fallback="…">{`Paso ${step} de ${totalSteps}`}</Translate>
         </span>
         <span className="font-stat">{percent}%</span>
       </div>

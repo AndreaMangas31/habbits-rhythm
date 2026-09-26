@@ -2,6 +2,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
+## Traducciones con Languager AI
+
+La aplicación usa el SDK de Languager AI con español como idioma fuente. El selector fijo de la esquina superior derecha permite cambiar a español, inglés, francés, alemán o italiano; las cadenas del onboarding se traducen al cambiarlo.
+
+1. Crea en Languager una clave **CLIENT** con el permiso `translations:read` y los orígenes permitidos de tu app (`http://localhost:3000` durante el desarrollo).
+2. Crea una clave **SERVER** con `translations:create`, sin exponerla al navegador.
+3. Copia `.env.example` a `.env.local` y completa las dos claves.
+
+`LANGUAGER_API_KEY` solo se usa en `POST /api/languager/session`, que entrega tokens de sesión de diez minutos. `NEXT_PUBLIC_LANGUAGER_API_KEY` sí llega al navegador, por lo que debe ser la clave CLIENT restringida.
+
+Si defines `NEXT_PUBLIC_LANGUAGER_API_URL` (por ejemplo para una API local), define también `LANGUAGER_BASE_URL` con la misma URL. Así los tokens de sesión se emiten y validan contra la misma API.
+
 First, run the development server:
 
 ```bash

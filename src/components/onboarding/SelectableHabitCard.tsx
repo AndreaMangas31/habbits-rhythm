@@ -5,6 +5,7 @@ import { IconCheck } from "@tabler/icons-react";
 import type { HabitSuggestion } from "@/lib/mock-data/habits";
 import { cn } from "@/lib/utils/cn";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
+import { Translate } from "@/components/layout/AppTranslate";
 
 type SelectableHabitCardProps = {
   habit: HabitSuggestion;
@@ -41,7 +42,7 @@ export function SelectableHabitCard({
       <div className="flex flex-col items-center gap-2">
         <Icon className={cn("h-10 w-10", colorStyles.icon)} stroke={1.8} />
         <span className="text-sm font-semibold text-foreground">
-          {habit.name}
+          <Translate fallback="…">{habit.name}</Translate>
         </span>
       </div>
 

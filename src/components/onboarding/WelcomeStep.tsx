@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { IconArrowRight, IconLeaf, IconSparkles } from "@tabler/icons-react";
+import { IconArrowRight, IconLeaf } from "@tabler/icons-react";
 import { Button } from "@/components/ui";
 import { Background } from "../ui/Backgound";
+import { Translate } from "@/components/layout/AppTranslate";
 
 type WelcomeStepProps = {
   onStart: () => void;
@@ -21,15 +21,15 @@ export function WelcomeStep({ onStart }: WelcomeStepProps) {
       <div className="z-1 flex flex-1 flex-col h-max items-center bg-transparent justify-center max-w-xl text-center gap-4">
         <img
           src="/plant.png"
-          alt="Welcome plant illustration"
+          alt="Ilustración de una planta de bienvenida"
           className=" w-40"
         />
         <h1 className=" text-3xl font-bold  text-foreground sm:text-5xl">
-          <span className="block">Pequenos habitos,</span>
-          <span className="block text-primary">grandes cambios.</span>
+          <span className="block"><Translate fallback="…">Pequeños hábitos,</Translate></span>
+          <span className="block text-primary"><Translate fallback="…">grandes cambios.</Translate></span>
         </h1>
         <p className=" text-base text-muted sm:text-lg">
-          Construye tu rutina ideal y conviertela en progreso visible cada dia.
+          <Translate fallback="…">Construye tu rutina ideal y conviértela en progreso visible cada día.</Translate>
         </p>
 
         <Button
@@ -37,7 +37,7 @@ export function WelcomeStep({ onStart }: WelcomeStepProps) {
           className=" h-12 min-w-44 rounded-2xl px-6 text-base"
           onClick={onStart}
         >
-          Empezar
+          <Translate fallback="…">Empezar</Translate>
           <IconArrowRight className="ml-2 h-4 w-4" stroke={2.2} />
         </Button>
       </div>

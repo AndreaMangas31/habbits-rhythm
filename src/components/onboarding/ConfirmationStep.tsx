@@ -6,6 +6,7 @@ import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils/cn";
+import { Translate } from "@/components/layout/AppTranslate";
 
 type ConfirmationStepProps = {
   habits: HabitSuggestion[];
@@ -25,10 +26,10 @@ export function ConfirmationStep({
 
         <header className="mt-6 text-center">
           <h2 className="text-2xl font-semibold text-foreground sm:text-3xl">
-            Genial! Estos son tus habitos
+            <Translate fallback="…">¡Genial! Estos son tus hábitos</Translate>
           </h2>
           <p className="mt-2 text-sm text-muted sm:text-base">
-            Siempre puedes editarlos mas tarde.
+            <Translate fallback="…">Siempre puedes editarlos más tarde.</Translate>
           </p>
         </header>
 
@@ -48,7 +49,7 @@ export function ConfirmationStep({
                 <div className="flex items-center gap-3">
                   <Icon className={cn("h-5 w-5", color.icon)} stroke={1.9} />
                   <span className="font-medium text-foreground">
-                    {habit.name}
+                    <Translate fallback="…">{habit.name}</Translate>
                   </span>
                 </div>
                 <span
@@ -69,7 +70,7 @@ export function ConfirmationStep({
           onClick={onFinish}
           disabled={isFinishing}
         >
-          Ir a mi dashboard ✨
+          <Translate fallback="…">Ir a mi panel ✨</Translate>
         </Button>
       </div>
     </section>
