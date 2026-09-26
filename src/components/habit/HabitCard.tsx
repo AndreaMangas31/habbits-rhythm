@@ -28,25 +28,50 @@ export function HabitCard({
   const Icon = getHabitIcon(habit.icon);
   const color = HABIT_COLOR_STYLES[habit.color];
 
-  const content = (
-    <>
-      <div className="flex min-w-0 items-center gap-3">
-        <span
-          className={cn(
-            "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
-            color.tintBg,
-          )}
-        >
-          <Icon className={cn("h-5 w-5", color.icon)} stroke={1.8} />
-        </span>
-        <div className="min-w-0">
-          <p className="truncate font-semibold text-foreground">{habit.name}</p>
-          <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
-            <IconFlame className="h-3.5 w-3.5 text-warning" stroke={2} />
-            <span className="font-stat">{streak} días</span>
-          </p>
+  return (
+    <div
+      className={cn(
+        "flex w-full items-center justify-between gap-3 rounded-2xl border border-foreground/6 bg-surface px-4 py-3 transition-shadow hover:shadow-md",
+        className,
+      )}
+    >
+      {href ? (
+        <Link href={href} className="flex min-w-0 flex-1 items-center gap-3">
+          <span
+            className={cn(
+              "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+              color.tintBg,
+            )}
+          >
+            <Icon className={cn("h-5 w-5", color.icon)} stroke={1.8} />
+          </span>
+          <div className="min-w-0">
+            <p className="truncate font-semibold text-foreground">{habit.name}</p>
+            <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
+              <IconFlame className="h-3.5 w-3.5 text-warning" stroke={2} />
+              <span className="font-stat">{streak} días</span>
+            </p>
+          </div>
+        </Link>
+      ) : (
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <span
+            className={cn(
+              "inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
+              color.tintBg,
+            )}
+          >
+            <Icon className={cn("h-5 w-5", color.icon)} stroke={1.8} />
+          </span>
+          <div className="min-w-0">
+            <p className="truncate font-semibold text-foreground">{habit.name}</p>
+            <p className="mt-0.5 flex items-center gap-1 text-xs text-muted">
+              <IconFlame className="h-3.5 w-3.5 text-warning" stroke={2} />
+              <span className="font-stat">{streak} días</span>
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="flex items-center gap-2">
         <span
@@ -64,31 +89,12 @@ export function HabitCard({
               ? `Marcar ${habit.name} como pendiente`
               : `Completar ${habit.name}`
           }
-          onClick={(event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            onToggle?.();
-          }}
+          onClick={() => onToggle?.()}
           className="rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         >
           <StatusIcon status={completedToday ? "completed" : "pending"} />
         </button>
       </div>
-    </>
+    </div>
   );
-
-  const classes = cn(
-    "flex w-full items-center justify-between gap-3 rounded-2xl border border-foreground/6 bg-surface px-4 py-3 transition-shadow hover:shadow-md",
-    className,
-  );
-
-  if (href) {
-    return (
-      <Link href={href} className={classes}>
-        {content}
-      </Link>
-    );
-  }
-
-  return <div className={classes}>{content}</div>;
 }
