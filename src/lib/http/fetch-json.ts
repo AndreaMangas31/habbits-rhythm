@@ -1,4 +1,5 @@
-import { matchMockRoute, type MockRoute } from "@/lib/http/mock-router";
+import { type ApiRoute } from "@/shared/routes";
+import { resolveMock } from "@/lib/http/resolve-mock";
 
 const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK !== "false";
 
@@ -6,8 +7,6 @@ const API_LATENCY_MS = {
   min: 180,
   max: 420,
 } as const;
-
-let registeredRoutes: MockRoute[] = [];
 
 function wait(duration: number) {
   return new Promise<void>((resolve) => {
@@ -22,61 +21,52 @@ function randomizedLatency() {
   );
 }
 
-/**
- * Register mock routes from feature `mock.ts` modules.
- * Call once from the mock registry before any client fetch.
- */
-export function registerMockRoutes(routes: MockRoute[]) {
-  registeredRoutes = [...registeredRoutes, ...routes];
-}
-
-export function resetMockRoutes(routes: MockRoute[] = []) {
-  registeredRoutes = routes;
-}
-
-export type FetchJSONOptions = Omit<RequestInit, "body"> & {
+export type FetchJSONOptions = {
   json?: unknown;
-  body?: BodyInit | null;
+  headers?: HeadersInit;
+  signal?: AbortSignal;
+  /** Extra query string, e.g. `habitId=read` */
+  query?: Record<string, string | undefined>;
 };
 
+function withQuery(path: string, query?: FetchJSONOptions["query"]) {
+  if (!query) {
+    return path;
+  }
+
+  const params = new URLSearchParams();
+  Object.entries(query).forEach(([key, value]) => {
+    if (value !== undefined) {
+      params.set(key, value);
+    }
+  });
+
+  const qs = params.toString();
+  return qs ? `${path}?${qs}` : path;
+}
+
 /**
- * Shared JSON client. Hooks should call this as if talking to a real backend.
- * While `NEXT_PUBLIC_USE_MOCK` is not `"false"`, requests are resolved by
- * feature mock handlers instead of `fetch`.
+ * Shared JSON client. Pass a route from `shared/routes.ts`
+ * (`routes.HABITS.LIST`, `routes.HABITS.CREATE`, …).
  */
 export async function fetchJSON<T>(
-  path: string,
+  route: ApiRoute,
   init: FetchJSONOptions = {},
 ): Promise<T> {
-  const method = (init.method ?? "GET").toUpperCase();
-  const body =
-    init.json !== undefined ? JSON.stringify(init.json) : (init.body ?? null);
+  const path = withQuery(route.path, init.query);
 
   if (USE_MOCK) {
     await wait(randomizedLatency());
-
     const url = new URL(path, "http://localhost");
-    const matched = matchMockRoute(registeredRoutes, method, url.pathname);
 
-    if (!matched) {
-      throw new Error(`No mock handler for ${method} ${url.pathname}`);
-    }
-
-    const parsedBody =
-      body && typeof body === "string" && body.length > 0
-        ? (JSON.parse(body) as unknown)
-        : undefined;
-
-    return matched.handler({
-      params: matched.params,
-      body: parsedBody,
+    return resolveMock(route, {
+      json: init.json,
       searchParams: url.searchParams,
     }) as T;
   }
 
   const response = await fetch(path, {
-    ...init,
-    method,
+    method: route.method,
     headers: {
       Accept: "application/json",
       ...(init.json !== undefined
@@ -84,7 +74,8 @@ export async function fetchJSON<T>(
         : {}),
       ...init.headers,
     },
-    body,
+    body: init.json !== undefined ? JSON.stringify(init.json) : undefined,
+    signal: init.signal,
   });
 
   if (!response.ok) {

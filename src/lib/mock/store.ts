@@ -1,6 +1,7 @@
 import { formatISO, startOfDay, subDays } from "date-fns";
+import { habitNotesMock } from "@/features/habit-detail/mock";
+import { userMock } from "@/features/onboarding/mock";
 import { generateSeedState } from "@/lib/mock-data/seed";
-import { MOCK_USER } from "@/lib/mock-data/user";
 import {
   STORAGE_KEYS,
   getStorageItem,
@@ -47,13 +48,6 @@ function setState(nextState: HabitSeedState) {
 }
 
 function buildSeedNotes(habits: Habit[]): HabitNote[] {
-  const templates = [
-    "Hoy me sentí con más energía al completar este hábito.",
-    "Fue más fácil de lo esperado. Voy a mantener el mismo horario.",
-    "Hubo distracciones, pero igual lo completé.",
-    "Pequeño avance, gran constancia.",
-  ];
-
   return habits.slice(0, 4).flatMap((habit, habitIndex) =>
     [3, 8, 14].map((daysAgo, noteIndex) => {
       const date = subDays(new Date(), daysAgo + habitIndex);
@@ -63,7 +57,7 @@ function buildSeedNotes(habits: Habit[]): HabitNote[] {
         id: `note-${habit.id}-${noteIndex}`,
         habitId: habit.id,
         date: toDayKey(date),
-        content: templates[(habitIndex + noteIndex) % templates.length]!,
+        content: habitNotesMock[(habitIndex + noteIndex) % habitNotesMock.length]!,
         createdAt,
         updatedAt: createdAt,
       };
@@ -286,8 +280,8 @@ export function readDashboardSummary(): DashboardSummary {
   });
 
   return {
-    user: MOCK_USER,
-    weeklyProgress: weekly.weeklyProgress,
+      user: userMock,
+      weeklyProgress: weekly.weeklyProgress,
     weeklyCompleted: weekly.weeklyCompleted,
     weeklyTarget: weekly.weeklyTarget,
     todayHabits,
@@ -320,7 +314,7 @@ export function readHabitDetail(id: string) {
     stats: getHabitMonthStats(checkIns),
     trend: buildTrend(checkIns, [id], 30),
     completedToday: isCompletedOnDate(checkIns, id, new Date()),
-    user: MOCK_USER,
+    user: userMock,
   };
 }
 

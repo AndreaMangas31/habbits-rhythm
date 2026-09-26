@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchJSON } from "@/lib/http/fetch-json";
-import { ensureMockRegistry } from "@/lib/http/register-mocks";
+import { routes } from "@/shared/routes";
 import { calculateStreaks } from "@/lib/utils/date";
 import { isCompletedOnDate } from "@/lib/utils/habit-stats";
 import type { CreateHabitInput, Habit, HabitCheckIn } from "@/types/habit";
@@ -19,14 +19,13 @@ export function useHabits() {
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    ensureMockRegistry();
     setLoading(true);
     setError(null);
 
     try {
       const [habits, checkIns] = await Promise.all([
-        fetchJSON<Habit[]>("/api/habits"),
-        fetchJSON<HabitCheckIn[]>("/api/check-ins"),
+        fetchJSON<Habit[]>(routes.HABITS.LIST),
+        fetchJSON<HabitCheckIn[]>(routes.CHECK_INS.LIST),
       ]);
       const today = new Date();
 
@@ -43,7 +42,9 @@ export function useHabits() {
         }),
       );
     } catch (err) {
-      setError(err instanceof Error ? err.message : "No se pudieron cargar los hábitos");
+      setError(
+        err instanceof Error ? err.message : "No se pudieron cargar los hábitos",
+      );
     } finally {
       setLoading(false);
     }
@@ -55,8 +56,7 @@ export function useHabits() {
 
   const toggleToday = useCallback(
     async (habitId: string) => {
-      ensureMockRegistry();
-      await fetchJSON(`/api/habits/${habitId}/check-in`, { method: "POST" });
+      await fetchJSON(routes.HABITS.CHECK_IN(habitId));
       await refresh();
     },
     [refresh],
@@ -64,9 +64,7 @@ export function useHabits() {
 
   const createHabit = useCallback(
     async (input: CreateHabitInput) => {
-      ensureMockRegistry();
-      const habit = await fetchJSON<Habit>("/api/habits", {
-        method: "POST",
+      const habit = await fetchJSON<Habit>(routes.HABITS.CREATE, {
         json: input,
       });
       await refresh();

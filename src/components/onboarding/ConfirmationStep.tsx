@@ -1,14 +1,14 @@
 "use client";
 
 import { IconCheck } from "@tabler/icons-react";
-import type { HabitSuggestion } from "@/lib/mock-data/habits";
+import type { HabitSuggestionMock } from "@/features/habits/mock";
 import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils/cn";
 
 type ConfirmationStepProps = {
-  habits: HabitSuggestion[];
+  habits: HabitSuggestionMock[];
   onFinish: () => void;
   isFinishing: boolean;
 };

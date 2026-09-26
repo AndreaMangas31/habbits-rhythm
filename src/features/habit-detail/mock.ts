@@ -1,31 +1,14 @@
-import type { MockRoute } from "@/lib/http/mock-router";
-import { addNoteInStore, readHabitDetail } from "@/lib/mock/store";
+/** Seed notes shown on habit detail before the user writes their own. */
+export const habitNotesMock = [
+  "Hoy me sentí con más energía al completar este hábito.",
+  "Fue más fácil de lo esperado. Voy a mantener el mismo horario.",
+  "Hubo distracciones, pero igual lo completé.",
+  "Pequeño avance, gran constancia.",
+] as const;
 
-export const habitDetailMockRoutes: MockRoute[] = [
-  {
-    method: "GET",
-    pattern: "/api/habits/:id/detail",
-    handler: ({ params }) => {
-      const detail = readHabitDetail(params.id!);
-      if (!detail) {
-        throw new Error("Hábito no encontrado");
-      }
-      return detail;
-    },
-  },
-  {
-    method: "POST",
-    pattern: "/api/habits/:id/notes",
-    handler: ({ params, body }) => {
-      const content =
-        typeof body === "object" &&
-        body !== null &&
-        "content" in body &&
-        typeof (body as { content: unknown }).content === "string"
-          ? (body as { content: string }).content
-          : "";
-
-      return addNoteInStore(params.id!, content);
-    },
-  },
-];
+export const habitDetailCopyMock = {
+  notesPlaceholder: "Escribe una reflexión sobre este hábito...",
+  emptyNotes: "Aún no hay notas.",
+  checkInLabel: "Check-in",
+  completedLabel: "Completado",
+};

@@ -1,17 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { MOCK_USER } from "@/lib/mock-data/user";
+import { userMock } from "@/features/onboarding/mock";
 import { Button, Card } from "@/components/ui";
 import { fetchJSON } from "@/lib/http/fetch-json";
-import { ensureMockRegistry } from "@/lib/http/register-mocks";
+import { routes } from "@/shared/routes";
 
 export default function SettingsPage() {
   const router = useRouter();
 
   async function handleResetDemo() {
-    ensureMockRegistry();
-    await fetchJSON("/api/demo/reset", { method: "POST" });
+    await fetchJSON(routes.DEMO.RESET);
     router.push("/onboarding");
   }
 
@@ -27,13 +26,13 @@ export default function SettingsPage() {
       <Card padding="lg" className="border border-foreground/5 shadow-card">
         <div className="flex items-center gap-3">
           <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-primary/15 text-base font-semibold text-primary">
-            {MOCK_USER.avatarInitials}
+            {userMock.avatarInitials}
           </span>
           <div>
             <p className="font-semibold">
-              {MOCK_USER.firstName} {MOCK_USER.lastName}
+              {userMock.firstName} {userMock.lastName}
             </p>
-            <p className="text-sm text-muted">{MOCK_USER.email}</p>
+            <p className="text-sm text-muted">{userMock.email}</p>
           </div>
         </div>
       </Card>

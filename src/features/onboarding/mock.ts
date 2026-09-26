@@ -1,31 +1,20 @@
-import type { MockRoute } from "@/lib/http/mock-router";
-import {
-  clearOnboardingAndReset,
-  isOnboardingCompleted,
-  resetMockStore,
-} from "@/lib/mock/store";
+import type { AppUser } from "@/types/user";
 
-export const onboardingMockRoutes: MockRoute[] = [
-  {
-    method: "GET",
-    pattern: "/api/onboarding/status",
-    handler: () => ({ completed: isOnboardingCompleted() }),
-  },
-  {
-    method: "POST",
-    pattern: "/api/onboarding/complete",
-    handler: () => {
-      // Selection keys are written by the hook before this call.
-      resetMockStore();
-      return { ok: true };
-    },
-  },
-  {
-    method: "POST",
-    pattern: "/api/demo/reset",
-    handler: () => {
-      clearOnboardingAndReset();
-      return { ok: true };
-    },
-  },
-];
+export const userMock: AppUser = {
+  id: "user-alba",
+  firstName: "Alba",
+  lastName: "García",
+  email: "alba@flowhabit.app",
+  avatarInitials: "AG",
+};
+
+export const onboardingCopyMock = {
+  welcomeTitle: ["Pequeños hábitos,", "grandes cambios."],
+  welcomeSubtitle:
+    "Construye tu rutina ideal y conviértela en progreso visible cada día.",
+  selectionTitle: "¿Qué hábitos quieres construir?",
+  selectionSubtitle:
+    "Selecciona los que más te importan para iniciar tu rutina.",
+  confirmationTitle: "¡Genial! Estos son tus hábitos",
+  confirmationSubtitle: "Siempre puedes editarlos más tarde.",
+};

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
+import { habitsMock } from "@/features/habits/mock";
 import { useHabits } from "@/features/habits";
 import { Button, Card } from "@/components/ui";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
@@ -15,7 +15,7 @@ export default function NewHabitPage() {
   const [saving, setSaving] = useState(false);
 
   async function handleCreate() {
-    const suggestion = HABIT_SUGGESTIONS.find((item) => item.id === selectedId);
+    const suggestion = habitsMock.find((item) => item.id === selectedId);
     if (!suggestion) return;
 
     setSaving(true);
@@ -43,7 +43,7 @@ export default function NewHabitPage() {
         padding="lg"
         className="grid gap-3 border border-foreground/5 sm:grid-cols-2"
       >
-        {HABIT_SUGGESTIONS.map((habit) => {
+        {habitsMock.map((habit) => {
           const Icon = habit.icon;
           const color = HABIT_COLOR_STYLES[habit.color];
           const selected = selectedId === habit.id;

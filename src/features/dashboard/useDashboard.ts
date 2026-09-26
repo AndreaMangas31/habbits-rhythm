@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchJSON } from "@/lib/http/fetch-json";
-import { ensureMockRegistry } from "@/lib/http/register-mocks";
+import { routes } from "@/shared/routes";
 import type { DashboardSummary } from "@/types/dashboard";
 
 export function useDashboard() {
@@ -12,12 +12,11 @@ export function useDashboard() {
   const [pendingId, setPendingId] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    ensureMockRegistry();
     setLoading(true);
     setError(null);
 
     try {
-      const summary = await fetchJSON<DashboardSummary>("/api/dashboard");
+      const summary = await fetchJSON<DashboardSummary>(routes.DASHBOARD.SUMMARY);
       setData(summary);
     } catch (err) {
       setError(
@@ -33,12 +32,11 @@ export function useDashboard() {
   }, [refresh]);
 
   const toggleToday = useCallback(async (habitId: string) => {
-    ensureMockRegistry();
     setPendingId(habitId);
 
     try {
-      await fetchJSON(`/api/habits/${habitId}/check-in`, { method: "POST" });
-      const summary = await fetchJSON<DashboardSummary>("/api/dashboard");
+      await fetchJSON(routes.HABITS.CHECK_IN(habitId));
+      const summary = await fetchJSON<DashboardSummary>(routes.DASHBOARD.SUMMARY);
       setData(summary);
     } catch (err) {
       setError(

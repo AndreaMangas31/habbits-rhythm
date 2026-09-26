@@ -6,7 +6,7 @@ import {
   IconBell,
   IconSearch,
 } from "@tabler/icons-react";
-import { MOCK_USER } from "@/lib/mock-data/user";
+import { userMock } from "@/features/onboarding/mock";
 
 type TopBarProps = {
   title?: string;
@@ -19,7 +19,7 @@ export function TopBar({ title }: TopBarProps) {
     <header className="flex flex-wrap items-center justify-between gap-3 border-b border-foreground/6 bg-background/80 px-4 py-4 backdrop-blur sm:px-6 lg:px-8">
       <div>
         <h1 className="text-xl font-semibold text-foreground sm:text-2xl">
-          {title ?? `Hola, ${MOCK_USER.firstName} 👋`}
+          {title ?? `Hola, ${userMock.firstName} 👋`}
         </h1>
         <p className="mt-0.5 text-sm capitalize text-muted">{todayLabel}</p>
       </div>
@@ -40,7 +40,7 @@ export function TopBar({ title }: TopBarProps) {
           <IconBell className="h-4 w-4" stroke={1.8} />
         </button>
         <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-primary/15 text-sm font-semibold text-primary">
-          {MOCK_USER.avatarInitials}
+          {userMock.avatarInitials}
         </span>
       </div>
     </header>

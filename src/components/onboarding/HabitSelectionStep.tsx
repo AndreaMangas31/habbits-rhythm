@@ -4,7 +4,7 @@ import { IconArrowRight } from "@tabler/icons-react";
 import { OnboardingProgress } from "@/components/onboarding/OnboardingProgress";
 import { SelectableHabitCard } from "@/components/onboarding/SelectableHabitCard";
 import { Button } from "@/components/ui";
-import { HABIT_SUGGESTIONS } from "@/lib/mock-data/habits";
+import { habitsMock } from "@/features/habits/mock";
 
 type HabitSelectionStepProps = {
   selectedHabitIds: string[];
@@ -35,7 +35,7 @@ export function HabitSelectionStep({
         </header>
 
         <div className="mt-6 grid grid-cols-1 gap-3 pb-28 sm:grid-cols-2 lg:grid-cols-3">
-          {HABIT_SUGGESTIONS.map((habit) => (
+          {habitsMock.map((habit) => (
             <SelectableHabitCard
               key={habit.id}
               habit={habit}

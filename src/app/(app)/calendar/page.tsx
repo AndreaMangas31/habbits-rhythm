@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Card, Skeleton } from "@/components/ui";
 import { MonthCalendar } from "@/components/calendar";
 import { fetchJSON } from "@/lib/http/fetch-json";
-import { ensureMockRegistry } from "@/lib/http/register-mocks";
+import { routes } from "@/shared/routes";
 import type { Habit, HabitCheckIn } from "@/types/habit";
 import { getHabitIcon } from "@/lib/icons/habit-icons";
 import { HABIT_COLOR_STYLES } from "@/components/onboarding/color-map";
@@ -17,11 +17,10 @@ export default function CalendarPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    ensureMockRegistry();
     void (async () => {
       const [nextHabits, nextCheckIns] = await Promise.all([
-        fetchJSON<Habit[]>("/api/habits"),
-        fetchJSON<HabitCheckIn[]>("/api/check-ins"),
+        fetchJSON<Habit[]>(routes.HABITS.LIST),
+        fetchJSON<HabitCheckIn[]>(routes.CHECK_INS.LIST),
       ]);
       setHabits(nextHabits);
       setCheckIns(nextCheckIns);

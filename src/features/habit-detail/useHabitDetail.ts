@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { fetchJSON } from "@/lib/http/fetch-json";
-import { ensureMockRegistry } from "@/lib/http/register-mocks";
+import { routes } from "@/shared/routes";
 import type { TrendPoint } from "@/types/dashboard";
 import type { Habit, HabitCheckIn, HabitNote } from "@/types/habit";
 import type { AppUser } from "@/types/user";
@@ -31,13 +31,12 @@ export function useHabitDetail(habitId: string) {
   const [toggling, setToggling] = useState(false);
 
   const refresh = useCallback(async () => {
-    ensureMockRegistry();
     setLoading(true);
     setError(null);
 
     try {
       const detail = await fetchJSON<HabitDetailData>(
-        `/api/habits/${habitId}/detail`,
+        routes.HABITS.DETAIL(habitId),
       );
       setData(detail);
     } catch (err) {
@@ -55,12 +54,11 @@ export function useHabitDetail(habitId: string) {
   }, [refresh]);
 
   const checkIn = useCallback(async () => {
-    ensureMockRegistry();
     setToggling(true);
     try {
-      await fetchJSON(`/api/habits/${habitId}/check-in`, { method: "POST" });
+      await fetchJSON(routes.HABITS.CHECK_IN(habitId));
       const detail = await fetchJSON<HabitDetailData>(
-        `/api/habits/${habitId}/detail`,
+        routes.HABITS.DETAIL(habitId),
       );
       setData(detail);
     } finally {
@@ -71,15 +69,13 @@ export function useHabitDetail(habitId: string) {
   const saveNote = useCallback(
     async (content: string) => {
       if (!content.trim()) return;
-      ensureMockRegistry();
       setSavingNote(true);
       try {
-        await fetchJSON(`/api/habits/${habitId}/notes`, {
-          method: "POST",
+        await fetchJSON(routes.HABITS.ADD_NOTE(habitId), {
           json: { content },
         });
         const detail = await fetchJSON<HabitDetailData>(
-          `/api/habits/${habitId}/detail`,
+          routes.HABITS.DETAIL(habitId),
         );
         setData(detail);
       } finally {

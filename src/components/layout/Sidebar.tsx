@@ -14,7 +14,7 @@ import {
   IconSparkles,
   IconTarget,
 } from "@tabler/icons-react";
-import { MOCK_USER } from "@/lib/mock-data/user";
+import { userMock } from "@/features/onboarding/mock";
 import { cn } from "@/lib/utils/cn";
 
 const navItems = [
@@ -112,12 +112,12 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           )}
         >
           <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary/25 text-sm font-semibold">
-            {MOCK_USER.avatarInitials}
+            {userMock.avatarInitials}
           </span>
           {!collapsed ? (
             <div className="min-w-0">
               <p className="truncate text-sm font-medium">
-                {MOCK_USER.firstName} {MOCK_USER.lastName}
+                {userMock.firstName} {userMock.lastName}
               </p>
               <p className="text-xs text-white/50">Ver perfil</p>
             </div>

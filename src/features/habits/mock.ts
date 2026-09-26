@@ -1,34 +1,99 @@
-import type { MockRoute } from "@/lib/http/mock-router";
 import {
-  createHabitInStore,
-  readActiveHabits,
-  readCheckIns,
-  toggleCheckInInStore,
-} from "@/lib/mock/store";
-import type { CreateHabitInput } from "@/types/habit";
+  IconBook,
+  IconBottle,
+  IconBrain,
+  IconHeart,
+  IconMoon,
+  IconRun,
+  IconSalad,
+  IconSchool,
+  IconWriting,
+  type IconProps,
+} from "@tabler/icons-react";
+import type { ComponentType } from "react";
+import type { HabitColorToken } from "@/types/habit";
 
-export const habitsMockRoutes: MockRoute[] = [
+export type HabitSuggestionMock = {
+  id: string;
+  name: string;
+  description: string;
+  icon: ComponentType<IconProps>;
+  iconName: string;
+  color: HabitColorToken;
+};
+
+/** Suggested habits shown in onboarding / create flow. */
+export const habitsMock: HabitSuggestionMock[] = [
   {
-    method: "GET",
-    pattern: "/api/habits",
-    handler: () => readActiveHabits(),
+    id: "sport",
+    name: "Deporte",
+    description: "Mover el cuerpo cada día para sostener energía y enfoque.",
+    icon: IconRun,
+    iconName: "IconRun",
+    color: "habit-8",
   },
   {
-    method: "POST",
-    pattern: "/api/habits",
-    handler: ({ body }) => createHabitInStore(body as CreateHabitInput),
+    id: "read",
+    name: "Leer",
+    description: "Reservar tiempo de lectura diaria para aprender y crecer.",
+    icon: IconBook,
+    iconName: "IconBook",
+    color: "habit-1",
   },
   {
-    method: "GET",
-    pattern: "/api/check-ins",
-    handler: ({ searchParams }) => {
-      const habitId = searchParams.get("habitId") ?? undefined;
-      return readCheckIns(habitId);
-    },
+    id: "meditation",
+    name: "Meditación",
+    description: "Respirar y bajar revoluciones durante algunos minutos.",
+    icon: IconBrain,
+    iconName: "IconBrain",
+    color: "habit-5",
   },
   {
-    method: "POST",
-    pattern: "/api/habits/:id/check-in",
-    handler: ({ params }) => toggleCheckInInStore(params.id!),
+    id: "drink-water",
+    name: "Beber agua",
+    description: "Mantener hidratación estable durante el día.",
+    icon: IconBottle,
+    iconName: "IconBottle",
+    color: "habit-3",
+  },
+  {
+    id: "sleep-better",
+    name: "Dormir mejor",
+    description: "Construir una rutina nocturna de descanso reparador.",
+    icon: IconMoon,
+    iconName: "IconMoon",
+    color: "habit-2",
+  },
+  {
+    id: "healthy-eating",
+    name: "Alimentación saludable",
+    description: "Priorizar comidas simples, balanceadas y sostenibles.",
+    icon: IconSalad,
+    iconName: "IconSalad",
+    color: "habit-7",
+  },
+  {
+    id: "writing",
+    name: "Escribir",
+    description: "Registrar ideas y reflexiones para ganar claridad.",
+    icon: IconWriting,
+    iconName: "IconWriting",
+    color: "habit-4",
+  },
+  {
+    id: "study",
+    name: "Estudiar",
+    description: "Bloque intencional de estudio sin distracciones.",
+    icon: IconSchool,
+    iconName: "IconSchool",
+    color: "habit-6",
+  },
+  {
+    id: "gratitude",
+    name: "Agradecer",
+    description: "Cerrar el día identificando algo por agradecer.",
+    icon: IconHeart,
+    iconName: "IconHeart",
+    color: "habit-1",
   },
 ];

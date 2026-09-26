@@ -1,9 +1,4 @@
-import type { AppUser } from "@/types/user";
+import { userMock } from "@/features/onboarding/mock";
 
-export const MOCK_USER: AppUser = {
-  id: "user-alba",
-  firstName: "Alba",
-  lastName: "García",
-  email: "alba@flowhabit.app",
-  avatarInitials: "AG",
-};
+/** @deprecated Prefer `userMock` from `@/features/onboarding/mock` */
+export const MOCK_USER = userMock;
