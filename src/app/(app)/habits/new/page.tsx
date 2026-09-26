@@ -60,14 +60,10 @@ export default function NewHabitPage() {
                   : "border-foreground/8 hover:border-foreground/20",
               )}
             >
-              <span
-                className={cn(
-                  "inline-flex h-10 w-10 items-center justify-center rounded-xl",
-                  color.tintBg,
-                )}
-              >
-                <Icon className={cn("h-5 w-5", color.icon)} />
-              </span>
+              <Icon
+                className={cn("h-8 w-8 shrink-0", color.icon)}
+                stroke={1.7}
+              />
               <span>
                 <span className="block font-medium">{habit.name}</span>
                 <span className="block text-xs text-muted">
